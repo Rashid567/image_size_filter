@@ -94,15 +94,14 @@ def analyze(
         total_files += 1
 
         try:
-            img = Image.open(file.as_posix())
+            with Image.open(file.as_posix()) as img:
+                width, height = img.size
+                format_ = img.format
         except UnidentifiedImageError:
             other_files += 1
             continue
 
         total_images += 1
-
-        width, height = img.size
-
         if mode == 'any':
             is_target = width < min_width or height < min_height
         else:
@@ -111,7 +110,7 @@ def analyze(
         if is_target:
             little_images += 1
 
-            print(f"{width:>4}×{height:<4} - {img.format:^7} - {file.as_posix()}")
+            print(f"{width:>4}×{height:<4} - {format_:^7} - {file.as_posix()}")
         else:
             normal_images += 1
 
@@ -145,11 +144,11 @@ def execute(
             continue
 
         try:
-            img = Image.open(file.as_posix())
+            with Image.open(file.as_posix()) as img:
+                width, height = img.size
+                format_ = img.format
         except UnidentifiedImageError:
             continue
-
-        width, height = img.size
 
         if mode == 'any':
             is_target = width < min_width or height < min_height
@@ -162,7 +161,7 @@ def execute(
 
             file.rename(new_path)
             print('-' * 70)
-            print(f"{width:>4}×{height:<4} - {img.format:^7}")
+            print(f"{width:>4}×{height:<4} - {format_:^7}")
             print(f"Old path: {file.as_posix()}")
             print(f"New path: {new_path}")
 
