@@ -167,6 +167,7 @@ def execute(
 
             moved_files_count += 1
 
+    print()
     print('=' * 70)
     print(f"Number of moved files: {moved_files_count}")
 
