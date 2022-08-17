@@ -138,6 +138,8 @@ def execute(
     s_dir = get_directory(source_directory)
     t_dir = create_directory(trash_directory)
 
+    moved_files_count: int = 0
+
     for file in s_dir.rglob("*"):
         if file.is_dir():
             continue
@@ -163,6 +165,11 @@ def execute(
             print(f"{width:>4}×{height:<4} - {img.format:^7}")
             print(f"Old path: {file.as_posix()}")
             print(f"New path: {new_path}")
+
+            moved_files_count += 1
+
+    print('=' * 70)
+    print(f"Number of moved files: {moved_files_count}")
 
 
 if __name__ == '__main__':
